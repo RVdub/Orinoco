@@ -27,7 +27,6 @@ openRequest.onsuccess = function () {
 };
 
 
-
 // Interrogation des APIs (bases de données distantes) en fonction du thème
 askApis(theme);
 
@@ -37,7 +36,6 @@ function askApis(name) {
         .then(data => {
             details = (data);
             console.log("data:", details); //affichage de vérification
-            document.querySelector("h1").textContent = "Nos meilleures ventes";
             displayProduct();
         })
         .catch(error => alert("Une erreur est survenue: " + error))
@@ -45,6 +43,7 @@ function askApis(name) {
 
 // Affichage de tous les produits du thème choisi
 function displayProduct() {
+    document.querySelector("h1").textContent = "Nos meilleures ventes";
     for (let i = 0; i < details.length; i++) {
         catalog.innerHTML += '<div class="col-12 col-lg-4">' +
             '<div class="card mb-4 text-center border-secondary shadow">' +
@@ -147,12 +146,12 @@ function putInMyCaddy() {
 // Mise à zéro du produit selectionné et retour à la page des produits du thème
 function backToTheList() {
     catalog.innerHTML = "";
+    back.textContent = "Votre choix thématique";
     objectNumberOfDetails = 0;
     idOfMyArticle = "";
     codeHtmlOption = "";
     myOptionChoice = "";
     pageProductButtons = "";
-    back.textContent = "Votre choix thématique";
     displayProduct();
 }
 
