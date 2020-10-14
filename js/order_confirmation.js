@@ -8,7 +8,7 @@ let surprise = document.getElementById("surprise");
 
 
 // Affichage prix total et identifiant de commande
-confirmTotal.textContent = "Confirmation pour un prix total de " + totalPrice + " euros.";
+confirmTotal.textContent = "Confirmation pour un prix total de " + (totalPrice / 100).toFixed(2) + " €uros.";
 console.log(sentence); // Affichage de vérification
 if (!sentence.includes("undefined")) {
   confirmOrderId.textContent = sentence;

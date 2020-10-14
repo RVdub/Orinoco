@@ -8,6 +8,11 @@ let objectNumberOfDetails;
 let codeHtmlOption;
 let myOptionChoice;
 
+// Fonction affichage du prix
+function priceDisplay(value) {
+    return (value / 100).toFixed(2) + " €uros";
+}
+
 // ouverture stockage données coté client (sur son navigateur)
 let db = "";
 let openRequest = indexedDB.open("db", 1);
@@ -52,7 +57,7 @@ function displayProduct() {
             '<button id="' + details[i]._id + '" class="btn btn-secondary" type="button" role="button">' +
             '<p class="h5 card-title">' + details[i].name + '</p>' + '</button>' +
             '<p class="card-text">' + details[i].description + '</p>' +
-            '<p class="card-text mt-3">Prix : ' + details[i].price + ' euros</p>' +
+            '<p class="card-text mt-3">Prix : ' + priceDisplay(details[i].price) + '</p>' +
             '</div></div></div>';
     }
     selectOneProduct();
@@ -101,7 +106,7 @@ function displayOneProduct() {
         '<option selected>Options possibles</option>' +
         codeHtmlOption +
         '</select>' +
-        '<p class="card-text mt-3">Prix : ' + details[objectNumberOfDetails].price + ' euros</p>' +
+        '<p class="card-text mt-3">Prix : ' + priceDisplay(details[objectNumberOfDetails].price) + '</p>' +
         '<style>.color-f3e9f1{background-color:#f3e9f1;}</style>' +
         '<button id="caddy" class="btn color-f3e9f1" type="button" role="button">' +
         '<img src="./images/caddy.png" alt="" /> Mon caddy</button>' +

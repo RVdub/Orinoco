@@ -11,6 +11,7 @@ let address;
 let city;
 let email;
 
+
 // Ouverture base de donnée (db) du navigateur client
 let db = "";
 let openRequest = indexedDB.open("db", 1);
@@ -31,7 +32,6 @@ openRequest.onsuccess = function () {
 };
 
 
-
 // Affichage écran des articles selectionnés (du panier)
 function displayData() {
   let transaction = db.transaction("choices", "readwrite");
@@ -47,11 +47,11 @@ function displayData() {
         '<img src="' + cursor.value.imageUrl + '" class="mr-3" height="60px" alt="Votre choix d\'article">' +
         '<div class="media-body">' +
         '<p class="h5 mt-0 mb-1">' + cursor.value.name + ' ' + cursor.value.option + '</p>' +
-        '<p>Prix: ' + cursor.value.price + ' euros. Quantité: ' +
+        '<p>Prix: ' + (cursor.value.price / 100).toFixed(2) + ' €uros. Quantité: ' +
         '<input class="btn-quty" type="number" value="' + cursor.value.quantity + '" size="2" min="1" max="10" step="1"/>' + "&#x09" +
         '<button class="btn btn-secondary btn-sm" type="button" role="button" id="' + cursor.value.id + '">supprimer</button></p>' +
         '</div></li></ul>';
-      totalPrice += (cursor.value.price * cursor.value.quantity); // Calcul du prix total
+      totalPrice += (cursor.value.price * cursor.value.quantity); // Calcul du prix total en centimes
       products[counter] = cursor.value.id; // Tableau de tous les id des produits selectionnés
       counter++
       cursor.continue();
@@ -68,7 +68,7 @@ function displayData() {
       alertHead.textContent = "Votre sélection d'article(s)";
     }
     if (totalPrice > 0) { // affichage du prix différent de 0
-      myCaddy.innerHTML += '<p class="h3 col-12 text-center" id="total">PRIX TOTAL = ' + totalPrice + ' euros</p>';
+      myCaddy.innerHTML += '<p class="h3 col-12 text-center" id="total">PRIX TOTAL = ' + (totalPrice / 100).toFixed(2) + ' euros</p>';
     } else {
       myCaddy.innerHTML = "";
     }
