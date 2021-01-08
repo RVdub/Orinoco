@@ -131,7 +131,7 @@ function putInMyCaddy() {
     let choices = transaction.objectStore("choices");
 
     let choice = {
-        id: idOfMyArticle, // Base indexée sur l'id et un seul identifiant par article quelque soit l'option => la dernière option retenue efface la précédente
+        id: idOfMyArticle, // Base indexée sur l'id et un seul identifiant par article quelque soit l'option
         option: myOptionChoice,
         imageUrl: details[objectNumberOfDetails].imageUrl,
         name: details[objectNumberOfDetails].name,

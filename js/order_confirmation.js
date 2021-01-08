@@ -40,7 +40,7 @@ openRequest.onsuccess = function () {
   db = openRequest.result;
   clearData();
 };
-// Exécutez la fonction clearData () pour vider les données dans le magasin d'objet
+// Exécutez la fonction clearData() pour vider les données dans le magasin d'objet
 function clearData() {
   let transaction = db.transaction("choices", "readwrite");
   transaction.oncomplete = function (event) {
