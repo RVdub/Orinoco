@@ -8,11 +8,6 @@ let objectNumberOfDetails;
 let codeHtmlOption;
 let myOptionChoice;
 
-// Fonction affichage du prix
-function priceDisplay(value) {
-    return (value / 100).toFixed(2) + " €uros";
-}
-
 // ouverture stockage données coté client (sur son navigateur)
 let db = "";
 let openRequest = indexedDB.open("db", 1);
@@ -29,12 +24,10 @@ db.onerror = function (event) {
 };
 openRequest.onsuccess = function () {
     db = openRequest.result;
+    askApis(theme);
 };
 
-
 // Interrogation des APIs (bases de données distantes) en fonction du thème
-askApis(theme);
-
 function askApis(name) {
     fetch("http://localhost:3000/api/" + name + "/")
         .then(response => response.json())
@@ -44,6 +37,11 @@ function askApis(name) {
             displayProduct();
         })
         .catch(error => alert("Une erreur est survenue: " + error))
+}
+
+// Fonction affichage du prix
+function priceDisplay(value) {
+    return (value / 100).toFixed(2) + " €uros";
 }
 
 // Affichage de tous les produits du thème choisi
@@ -61,10 +59,9 @@ function displayProduct() {
             '</div></div></div>';
     }
     selectOneProduct();
-
 }
 
-// Sélection d'un produit au premier clic et récupération de son id (et de l'option en fonction du thème)
+// Sélection d'un produit au premier clic et récupération de son id (et de l'option en fonction d'un des trois thèmes à fin 2020)
 function selectOneProduct() {
     pageProductButtons = document.querySelectorAll("button"); //sélectionne tous les boutons
     for (let i = 1; i < pageProductButtons.length; i++) { // Le premier bouton n°0 correspond au menu
@@ -103,7 +100,7 @@ function displayOneProduct() {
         '<p class="h5 card-title">' + details[objectNumberOfDetails].name + '</p>' + '</button>' +
         '<p class="card-text">' + details[objectNumberOfDetails].description + '</p>' +
         '<select class="custom-select custom-select-sm">' +
-        '<option selected>Options possibles</option>' +
+        '<option selected>Choix option obligatoire. Merci</option>' +
         codeHtmlOption +
         '</select>' +
         '<p class="card-text mt-3">Prix : ' + priceDisplay(details[objectNumberOfDetails].price) + '</p>' +
@@ -111,12 +108,19 @@ function displayOneProduct() {
         '<button id="caddy" class="btn color-f3e9f1" type="button" role="button">' +
         '<img src="./images/caddy.png" alt="" /> Mon caddy</button>' +
         '</div></div></div>';
-    // scrute un événement clic sur le bouton panier et sur l'option choisi
-    document.querySelector("select").addEventListener("change", function (event) {
+    // scrute un événement sur l'option choisi
+    document.querySelector("select").addEventListener("change", function(event) {
         myOptionChoice = event.target.value;
     });
-    document.getElementById("caddy").addEventListener("click", putInMyCaddy);
-    // scrute un événement clic sur le bouton retour à la liste
+    // scrute un événement clic sur le bouton panier et vérifie que l'option est bien selectionnée
+    document.getElementById("caddy").addEventListener("click", function() {
+        if (!myOptionChoice || myOptionChoice === "Choix option obligatoire. Merci") {
+            alert("Oups ! Vous avez oublié de choisir l'option ;)");
+        } else {
+            putInMyCaddy();
+        }      
+    });
+        // scrute un événement clic sur le bouton retour à la liste
     let back = document.getElementById("back");
     back.textContent = "Retour à la liste"
     back.addEventListener("click", backToTheList);
